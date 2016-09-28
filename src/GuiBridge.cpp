@@ -21,18 +21,27 @@ int GuiBridge::type_count(){
     return modules.modules_names().size();
 }
 
-void GuiBridge::project_open( QString fileName ){
-    cout<<fileName.toStdString()<<endl;
+void GuiBridge::project_new(){
+    project.projectNew();
 }
+
+void GuiBridge::project_open( QString fileName ){
+    project.projectOpen(fileName);
+}
+
 void GuiBridge::project_save_as( QString fileName ){
-    cout<<fileName.toStdString()<<endl;
+    project.projectSaveAs(fileName);
+}
+
+bool GuiBridge::project_save(){
+    return project.projectSave();
 }
 
 void GuiBridge::module_select(int index){
     project.module_select(index);
 }
 
-void GuiBridge::module_add(QString name, QString type){
+bool GuiBridge::module_add(QString name, QString type){
     project.module_add(name, type);
 }
 void GuiBridge::module_delete(){

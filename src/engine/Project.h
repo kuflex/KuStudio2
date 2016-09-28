@@ -24,14 +24,15 @@ struct Project {
 
     void projectNew();
     void projectOpen(QString file_name);
-    void projectSave();
+    bool projectSave();
     void projectSaveAs(QString file_name);
 
     QStringList module_names();
-    void module_add(QString name, QString type);
+    bool module_add(QString name, QString type);
     void module_delete();
     void module_select(int index);
 
+    QString fileName() { return file_name_; }
 
 
 protected:

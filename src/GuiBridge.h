@@ -10,11 +10,11 @@ class GuiBridge : public QObject{
 public:
     GuiBridge();
 
-    //Q_INVOKABLE void project_new();
+    Q_INVOKABLE void project_new();
     //Q_INVOKABLE void project_open_last();                //открыть последний проект
     Q_INVOKABLE void project_open( QString fileName );   //ku2
     Q_INVOKABLE void project_save_as( QString fileName );
-    //Q_INVOKABLE void project_save();
+    Q_INVOKABLE bool project_save();
 
 
     Q_INVOKABLE QStringList type_names();
@@ -22,9 +22,10 @@ public:
     Q_INVOKABLE int type_count();
 
     Q_INVOKABLE QStringList module_names();
-    Q_INVOKABLE void module_add(QString name, QString type);
-    Q_INVOKABLE void module_delete();
     Q_INVOKABLE int module_count();
+
+    Q_INVOKABLE bool module_add(QString name, QString type);
+    Q_INVOKABLE void module_delete();
 
     Q_INVOKABLE void module_select(int index);
 

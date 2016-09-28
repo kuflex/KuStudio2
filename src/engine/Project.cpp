@@ -18,21 +18,25 @@ Project::Project() {
 void Project::projectNew() {
     module_.clear();
     index_ = 0;
+    file_name_ = "";
 }
 
 //-------------------------------------------------------
 void Project::projectOpen(QString file_name) {
-
+    cout<<file_name.toStdString()<<endl;
+    file_name_ = file_name;
 }
 
 //-------------------------------------------------------
-void Project::projectSave() {
-
+bool Project::projectSave() {
+    if (file_name_ == "" ) return false;
+    return true;
 }
 
 //-------------------------------------------------------
 void Project::projectSaveAs(QString file_name) {
-
+    cout<<file_name.toStdString()<<endl;
+    file_name_ = file_name;
 }
 
 //-------------------------------------------------------
@@ -45,10 +49,21 @@ QStringList Project::module_names() {
 }
 
 //-------------------------------------------------------
-void Project::module_add(QString name, QString type) {
+bool Project::module_add(QString name, QString type) {
+    if (name == "") {
+        QMessageBox::information(0,"Warning", "Please, enter module name");
+        return false;
+    }
+    for (size_t i=0; i<module_.size(); i++) {
+        if (module_[i].name == name) {
+            QMessageBox::information(0,"Warning", "Module " + name + " already exists. Type another name.");
+            return false;
+        }
+    }
     module_.push_back(Module(name,type));
     cout<<name.toStdString()<<endl;
     cout<<type.toStdString()<<endl;
+    return true;
 }
 
 //-------------------------------------------------------

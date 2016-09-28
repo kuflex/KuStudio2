@@ -40,3 +40,14 @@ QStringList Modules::modules_descriptions() {    //Описания доступ
 }
 
 //-------------------------------------------------------
+QStringList Modules::modules_proposed_names() {    //Предлагаемые названия для объектов модулей
+    QStringList list;
+    for (size_t i=0; i<reg_modules_.size(); i++) {
+        list.push_back(reg_modules_[i].proposed_name);
+    }
+
+    return list;
+
+}
+
+//-------------------------------------------------------

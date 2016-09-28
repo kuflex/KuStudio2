@@ -19,6 +19,7 @@ struct Modules {
     Modules();
     QStringList modules_names();    //Имена доступных модулей
     QStringList modules_descriptions();    //Описания доступных модулей
+    QStringList modules_proposed_names();    //Предлагаемые названия для объектов модулей
 
 protected:
     vector<ModuleInfo> reg_modules_;
