@@ -10,7 +10,9 @@ ApplicationWindow {
     visible: true
     width: 800
     height: 600
-    title: qsTr("KuStudio2")
+    title: qsTr("KuStudio2 "+proj)
+
+    property string proj:""
 
     GuiBridge{
         id:myWidget
@@ -37,11 +39,11 @@ ApplicationWindow {
             title: qsTr("File")
             MenuItem {
                 text: qsTr("&New project")
-                //onTriggered: newProjDlg.open();
+                onTriggered: {myWidget.project_new(); refresh_all()}
             }
             MenuItem {
                 text: qsTr("&Open project...")
-                onTriggered: projOpenDlg.open();
+                onTriggered: {projOpenDlg.open(); }
             }
             MenuItem {
                 text: qsTr("&Save")
@@ -76,7 +78,9 @@ ApplicationWindow {
             myWidget.project_open(filename);
             //mes.text=filename;
             //mes.open();
+            refresh_title("-");
         }
+
 
     }
 
@@ -104,7 +108,12 @@ ApplicationWindow {
     MessageDialog{
         id:aboutDlg
         title:"About"
-        text:"KuStudio2\nversion 1.0"
+        text:"KuStudio2, version 1.0"
+
+        standardButtons: StandardButton.Ok
+        icon: StandardIcon.Information
+
+        onAccepted: {close();}
     }
     MessageDialog{
         id:delModDlg
@@ -234,6 +243,16 @@ function load_module_list(){
     for(var i=0; i<count; i++){
        dataName.append({"name":temp[i]});
     }
+
+}
+
+function refresh_title(str){
+    win.proj=str+myWidget.get_file_name();
+}
+
+function refresh_all(){
+    refresh_module_list();
+    refresh_title("");
 }
 
     /*Rectangle {

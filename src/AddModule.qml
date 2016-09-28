@@ -13,16 +13,14 @@ Window {
     minimumWidth: 400
     minimumHeight: 300
 
+    property var propName
 
     MessageDialog{
         id:mes
     }
 
     Component.onCompleted: {
-        var count=myWidget.type_count();
-        for(var i=0; i<count; i++){
-           dataType.append({"type":myWidget.type_names()[i]});
-        }
+        init_type_list();
     }
 
 
@@ -75,6 +73,7 @@ Window {
                id:name
                anchors.top:text1.bottom
                anchors.margins: 5
+               text:""
            }
            Text{
                id:text2
@@ -97,7 +96,12 @@ Window {
                            TableViewColumn {
                                    role: "type"
                                    //title: "Title"
-                                   width: 100
+                                   width: 150
+                               }
+                           TableViewColumn {
+                                   role: "desc"
+                                   //title: "Title"
+                                   width: 300
                                }
                            anchors.fill: parent
                            model: dataType
@@ -107,6 +111,11 @@ Window {
                                //mes.open();
                                //selection.select(currentRow)
                            }
+                           onClicked:{
+                               var ind=currentRow;
+                               name.text=win.propName[ind];
+                           }
+
                        }
                    }
            Row{
@@ -115,10 +124,7 @@ Window {
                    id:butAdd
                    text:"Add"
                    onClicked: {
-                       myWidget.module_add(name.text, dataType.get(view1.currentRow).type);
-                       refresh_module_list();
-                       win.close();
-
+                       add_module();
                    }
                }
                Button{
@@ -131,5 +137,33 @@ Window {
            }
        }
    }
+
+   MessageDialog{
+       id:warningDlg
+       text:"Select any type of module"
+       title: "Warning"
+
+       standardButtons: StandardButton.Ok
+       icon: StandardIcon.Information
+
+       onAccepted: {close();}
+   }
+  function init_type_list(){
+      var count=myWidget.type_count();
+      var types=myWidget.type_names();
+      var descript=myWidget.type_desc();
+      win.propName=myWidget.module_prop_name();
+      for(var i=0; i<count; i++){
+         dataType.append({"type":types[i], "desc":descript[i]});
+      }
+      //view1.resizeColumnsToContents();
+  }
+  function add_module(){
+      if (view1.currentRow!=-1){
+          var flag=myWidget.module_add(name.text, dataType.get(view1.currentRow).type);
+          if (flag){refresh_module_list(); win.close();}
+      }
+      else warningDlg.open();
+  }
 
 }

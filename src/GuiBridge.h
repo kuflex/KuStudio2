@@ -16,12 +16,16 @@ public:
     Q_INVOKABLE void project_save_as( QString fileName );
     Q_INVOKABLE bool project_save();
 
+    Q_INVOKABLE QString get_file_name();
+
 
     Q_INVOKABLE QStringList type_names();
+    Q_INVOKABLE QStringList type_desc();
 
     Q_INVOKABLE int type_count();
 
     Q_INVOKABLE QStringList module_names();
+    Q_INVOKABLE QStringList module_prop_name();
     Q_INVOKABLE int module_count();
 
     Q_INVOKABLE bool module_add(QString name, QString type);
