@@ -7,6 +7,9 @@
 #include <iostream>
 using namespace std;
 
+//Для подключения работы с модулями - нужен только engine.h
+#include "engine.h"
+
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);

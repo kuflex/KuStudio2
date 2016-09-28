@@ -18,6 +18,7 @@ public:
 
 
     Q_INVOKABLE QStringList type_names();
+
     Q_INVOKABLE int type_count();
 
     Q_INVOKABLE QStringList module_names();
@@ -38,14 +39,6 @@ public:
 
 
 //--------------------------------------
-    QStringList ListType;
-    QStringList ModuleNames;
-
-    int CountType;
-    int CountModule;
-
-    int Index;
-
 
 private:
     void Inits();

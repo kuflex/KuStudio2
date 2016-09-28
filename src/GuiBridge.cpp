@@ -1,15 +1,24 @@
 #include "GuiBridge.h"
 #include <QtWidgets>
+#include "kuMain.h"
+
+//Для подключения работы с модулями - нужен только engine.h
+#include "engine.h"
+
 
 GuiBridge::GuiBridge(){
     Inits();
 }
+
 QStringList GuiBridge::type_names(){
-    return ListType;
+    return modules.modules_names();
+    //Светлана, еще есть modules.modules_descriptions() - это список описаний всех модулей
 }
 
+
+
 int GuiBridge::type_count(){
-    return CountType;
+    return modules.modules_names().size();
 }
 
 void GuiBridge::project_open( QString fileName ){
@@ -20,44 +29,28 @@ void GuiBridge::project_save_as( QString fileName ){
 }
 
 void GuiBridge::module_select(int index){
-    if (index!=-1)
-    Index=index;
-    else QMessageBox::information(0,"Warning", "Выберите модуль для работы!");
+    project.module_select(index);
 }
 
 void GuiBridge::module_add(QString name, QString type){
-    ModuleNames.push_back(name);
-    cout<<name.toStdString()<<endl;
-    cout<<type.toStdString()<<endl;
+    project.module_add(name, type);
 }
 void GuiBridge::module_delete(){
-    ModuleNames.erase(ModuleNames.begin()+Index);
+    project.module_delete();
 }
 
 QStringList GuiBridge::module_names(){
-    return ModuleNames;
+    return project.module_names();
 }
 int GuiBridge::module_count(){
-    CountModule=ModuleNames.size();
-    return CountModule;
+    return project.module_names().size();
 }
 
 void GuiBridge::Inits(){
 
     //Index=0;
 
-    ListType.push_back("preview");
-    ListType.push_back("camera");
-    ListType.push_back("pointCloud");
-    ListType.push_back("ortho");
-    ListType.push_back("optFlow");
-    ListType.push_back("sender");
 
-    CountType=ListType.size();
-
-    ModuleNames.push_back("Preview");
-    ModuleNames.push_back("Camera1");
-    ModuleNames.push_back("Ortho");
 }
 
 
