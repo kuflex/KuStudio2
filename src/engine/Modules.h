@@ -1,7 +1,10 @@
 #pragma once
 
+//Список зарегистрированных модулей
+
 #include "kuMain.h"
 #include<QStringList>
+#include<Module.h>
 
 struct ModuleInfo {
     QString type_name;      //имя типа модуля
@@ -20,6 +23,8 @@ struct Modules {
     QStringList modules_names();    //Имена доступных модулей
     QStringList modules_descriptions();    //Описания доступных модулей
     QStringList modules_proposed_names();    //Предлагаемые названия для объектов модулей
+
+    Module *createModule( QString name, QString type );
 
 protected:
     vector<ModuleInfo> reg_modules_;

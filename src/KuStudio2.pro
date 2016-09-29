@@ -14,14 +14,18 @@ INCLUDEPATH += engine
 HEADERS += \
     GuiBridge.h \
     engine\engine.h \
-    engine\Project.h \
-    engine\Modules.h
+    engine\Module.h \
+    engine\ModulePrimesense.h \
+    engine\Modules.h \
+    engine\Project.h
 
 
 SOURCES += main.cpp \
     GuiBridge.cpp    \
-    engine\Project.cpp \
+    engine\Module.cpp \
+    engine\ModulePrimesense.cpp \
     engine\Modules.cpp \
+    engine\Project.cpp
 
 
 #----- kuFramework ----------------------

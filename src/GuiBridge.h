@@ -33,18 +33,31 @@ public:
 
     Q_INVOKABLE void module_select(int index);
 
-    //Q_INVOKABLE QString get_module_string(QString param_name) { return "A"; }
-    //Q_INVOKABLE float get_module_float(QString param_name) { return 1.0; }
-    //Q_INVOKABLE float get_module_int(QString param_name) { return 1; }
-     //Q_INVOKABLE ??? get_module_bool(QString parame_name) { return 1; }
 
-    //Q_INVOKABLE QString set_module_string(QString param_name, QString value) {}
-    //Q_INVOKABLE QString set_module_float(QString param_name, float value) {}
-    //Q_INVOKABLE QString set_module_int(QString param_name, int value) {}
+    //Возвращает true, если параметр можно менять в режиме работы
+    Q_INVOKABLE bool module_get_unlock(QString param_name);
+
+    //Получение и установка параметров о настройках модуля
+
+    Q_INVOKABLE QString module_get_string(QString param_name);
+    Q_INVOKABLE QStringList module_get_string_list(QString param_name);
+    Q_INVOKABLE float module_get_float(QString param_name);
+    Q_INVOKABLE int module_get_int(QString param_name);
+    Q_INVOKABLE bool module_get_bool(QString parame_name);
+
+    Q_INVOKABLE void module_set_string(QString param_name, QString value);
+    Q_INVOKABLE void module_set_string_list(QString param_name, QStringList value);
+    Q_INVOKABLE void module_set_float(QString param_name, float value);
+    Q_INVOKABLE void module_set_int(QString param_name, int value);
+    Q_INVOKABLE void module_set_bool(QString param_name, bool value);
+
 
 
 //--------------------------------------
 
 private:
     void Inits();
+
+    void error( QString message );  //вызывать в случае ошибки
+
 };

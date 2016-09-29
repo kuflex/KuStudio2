@@ -1,17 +1,19 @@
 #include "Modules.h"
-
+#include "ModulePrimesense.h"
 
 Modules modules;
 
 //-------------------------------------------------------
 Modules::Modules() {
 
-    reg_module("preview", "Preview module", "Preview");
-    reg_module("Primesense-camera", "Capture data from Primesense depth camera", "Primesense");
-    reg_module("pointCloud", "Processing point clouds", "PointCloud");
-    reg_module("ortho",  "Processing 2D projection of a point cloud", "Ortho");
-    reg_module("optFlow", "Computing optical flow", "Flow");
-    reg_module("sender", "Sending data by network", "Sender");
+    reg_module("VideoPlayer", "Play video files", "Video");
+
+    reg_module("Primesense", "Capture data from Primesense depth camera", "Primesense");
+    reg_module("Preview", "Preview module", "Preview");
+    reg_module("PointCloud", "Processing point clouds", "PointCloud");
+    reg_module("Ortho",  "Processing 2D projection of a point cloud", "Ortho");
+    reg_module("OptFlow", "Computing optical flow", "Flow");
+    reg_module("SenderOSC", "Sending OSC data by network", "SenderOSC");
 }
 
 //-------------------------------------------------------
@@ -48,6 +50,12 @@ QStringList Modules::modules_proposed_names() {    //Предлагаемые н
 
     return list;
 
+}
+
+//-------------------------------------------------------
+Module *Modules::createModule( QString name, QString type ) {
+    if ( type == "Primesense" ) return new ModulePrimesense(name);
+    return new Module(name,type);
 }
 
 //-------------------------------------------------------
