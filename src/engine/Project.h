@@ -15,7 +15,7 @@ struct Project {
 
     QStringList module_names();
     bool module_add(QString name, QString type);
-    void module_delete();
+    bool module_delete();
     void module_select(int index);
 
     QString fileName() { return file_name_; }

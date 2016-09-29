@@ -18,7 +18,7 @@ Project::Project() {
 //-------------------------------------------------------
 void Project::projectNew() {
     module_.clear();
-    index_ = 0;
+    index_ = -1;
     file_name_ = "";
 }
 
@@ -42,8 +42,11 @@ void Project::projectSaveAs(QString file_name) {
 
 //-------------------------------------------------------
 void Project::module_select(int index) {
-    if (index!=-1)
+    cout<<index<<endl;
+    if(index!=-1){
     index_=index;
+    cout<<index_<<endl;
+    }
     else QMessageBox::information(0,"Warning", "You need to choose a module");
 }
 
@@ -87,12 +90,17 @@ bool Project::module_add(QString name, QString type) {
 }
 
 //-------------------------------------------------------
-void Project::module_delete() {
+bool Project::module_delete() {
     if (indexValid()) {
         delete module();
         module_.erase(module_.begin()+index_);
+        return true;
     }
-    else QMessageBox::information(0,"Warning", "You need to choose a module to delete");
+    else {
+        QMessageBox::information(0,"Warning", "You need to choose a module to delete");
+        return false;
+    }
+
 
 }
 

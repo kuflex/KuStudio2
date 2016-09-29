@@ -29,7 +29,7 @@ public:
     Q_INVOKABLE int module_count();
 
     Q_INVOKABLE bool module_add(QString name, QString type);
-    Q_INVOKABLE void module_delete();
+    Q_INVOKABLE bool module_delete();
 
     Q_INVOKABLE void module_select(int index);
 

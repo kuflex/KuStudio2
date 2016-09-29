@@ -63,6 +63,7 @@ bool GuiBridge::project_save(){
 //-------------------------------------------------------
 void GuiBridge::module_select(int index){
     cout << "SELECT" << endl;
+    cout<<index<<endl;
     project.module_select(index);
 
     //Запрос информации о модуле
@@ -90,8 +91,8 @@ bool GuiBridge::module_add(QString name, QString type){
 }
 
 //-------------------------------------------------------
-void GuiBridge::module_delete(){
-    project.module_delete();
+bool GuiBridge::module_delete(){
+    return project.module_delete();
 }
 
 //-------------------------------------------------------

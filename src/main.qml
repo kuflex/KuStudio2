@@ -124,7 +124,6 @@ ApplicationWindow {
         //icon: StandardIcon.Warning
 
         onAccepted: {
-            myWidget.module_delete();
             delModDlg.close();
             refresh_module_list();
         }
@@ -187,6 +186,11 @@ Rectangle{
                             //title: "Title"
                             width: 100
                         }
+                    onClicked: { //onActivated
+                        //mes.text=view.currentRow;
+                        //mes.open();
+                        myWidget.module_select(view.currentRow);
+                    }
                 }
             }
             Row{
@@ -198,8 +202,9 @@ Rectangle{
                     id: butDel;
                     text:"Delete";
                     onClicked:{
-                        myWidget.module_select(view.currentRow);
-                        if (view.currentRow!=-1) delModDlg.open();
+                        //myWidget.module_select(view.currentRow);
+                        var flag=myWidget.module_delete();
+                        if (flag) delModDlg.open();
                     }
                }
             }
