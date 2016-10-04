@@ -4,5 +4,8 @@
         <file>AddModule.qml</file>
         <file>DataType.qml</file>
         <file>DataName.qml</file>
+        <file>ToolButtonStyle.qml</file>
+        <file>ParamsCamera.qml</file>
+        <file>TabStyle.qml</file>
     </qresource>
 </RCC>

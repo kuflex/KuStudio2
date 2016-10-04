@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.2
 
 import com.kuflex.GuiBridge 1.0
 
@@ -18,7 +20,13 @@ ApplicationWindow {
         id:myWidget
     }
 
+    TabStyle{
+        id:tabStyle
+    }
 
+    ToolButtonStyle{
+        id:butStyle
+    }
     AddModule{
         id:dlg
     }
@@ -68,6 +76,34 @@ ApplicationWindow {
         }
     }
 
+    toolBar:ToolBar {
+            RowLayout {
+                anchors.centerIn: parent
+                ToolButton {
+                    id:butPlay
+                    text:"Play"
+                    //iconSource: "new.png"
+                    style: butStyle
+                    onClicked: {
+                        butDel.enabled=false;
+                        butAdd.enabled=false;
+                        enabled=false;
+                        myWidget.module_get_unlock("thread");
+                    }
+                }
+                ToolButton {
+                    text:"Stop"
+                    //iconSource: "open.png"
+                    style: butStyle
+                    onClicked: {
+                        butDel.enabled=true;
+                        butAdd.enabled=true;
+                        butPlay.enabled=true;
+                    }
+                }
+            }
+    }
+
     FileDialog{
         id:projOpenDlg
         title:"New Project"
@@ -76,8 +112,6 @@ ApplicationWindow {
         onAccepted: {
             var filename=projOpenDlg.fileUrl;
             myWidget.project_open(filename);
-            //mes.text=filename;
-            //mes.open();
             refresh_title("-");
         }
 
@@ -95,8 +129,6 @@ ApplicationWindow {
             var filename=saveAsDlg.fileUrl;
             //my.save(filename, fileDlg.text);
             myWidget.project_save_as(filename);
-            //mes.text=filename;
-            //mes.open();
         }
 
     }
@@ -221,7 +253,8 @@ Rectangle{
 
         border.color:"black"
     }
-    Rectangle{
+
+    /*Rectangle{
         id:rightPart
         anchors.margins: 5
         anchors.top: parent.top
@@ -230,6 +263,16 @@ Rectangle{
         width:150;
 
         border.color:"black"
+    }*/
+
+    ParamsCamera{
+        //id:paramsCamera
+        id:rightPart
+        anchors.margins: 5
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width:150;
     }
 }
 
@@ -258,6 +301,10 @@ function refresh_title(str){
 function refresh_all(){
     refresh_module_list();
     refresh_title("");
+}
+
+function get_select_module(){
+    return view.currentRow;
 }
 
     /*Rectangle {
