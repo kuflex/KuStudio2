@@ -15,6 +15,7 @@ ApplicationWindow {
     title: qsTr("KuStudio2 "+proj)
 
     property string proj:""
+    property string module_type:""
 
     GuiBridge{
         id:myWidget
@@ -36,6 +37,10 @@ ApplicationWindow {
     DataName{
         id:dataName
     }
+
+    /*ParamsCamera{
+        id:paramsCamera
+    }*/
 
     Component.onCompleted: {
        load_module_list();
@@ -88,7 +93,7 @@ ApplicationWindow {
                         butDel.enabled=false;
                         butAdd.enabled=false;
                         enabled=false;
-                        myWidget.module_get_unlock("thread");
+                        //myWidget.module_get_unlock("thread"); &&!!
                     }
                 }
                 ToolButton {
@@ -219,9 +224,11 @@ Rectangle{
                             width: 100
                         }
                     onClicked: { //onActivated
-                        //mes.text=view.currentRow;
-                        //mes.open();
                         myWidget.module_select(view.currentRow);
+                        win.module_type=myWidget.get_module_type();
+                        rightPart.sourceComponent=gui_get_paramTab(win.module_type);
+                        mes.text=win.module_type;
+                        mes.open();
                     }
                 }
             }
@@ -265,14 +272,52 @@ Rectangle{
         border.color:"black"
     }*/
 
-    ParamsCamera{
-        //id:paramsCamera
+
+    //ParamsCamera
+    /*ParamsPreview{
         id:rightPart
         anchors.margins: 5
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         width:150;
+    }*/
+    Loader {
+        id:rightPart
+        anchors.margins: 5
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        width:150;
+        sourceComponent: primesense
+    }
+    Component {
+        id:primesense
+        ParamsPrimesense{}
+    }
+    Component {
+        id: preview
+        ParamsPreview{}
+    }
+    Component {
+        id: ortho
+        ParamsOrtho{}
+    }
+    Component {
+        id: optFlow
+        ParamsOptFlow{}
+    }
+    Component {
+        id: pointCloud
+        ParamsPointCloud{}
+    }
+    Component {
+        id: videoPlayer
+        ParamsVideoPlayer{}
+    }
+    Component {
+        id: senderOSC
+        ParamsSenderOSC{}
     }
 }
 
@@ -305,6 +350,14 @@ function refresh_all(){
 
 function get_select_module(){
     return view.currentRow;
+}
+
+function gui_get_paramTab(type){
+    if (type==="Primesense") return primesense;
+    if (type==="preview") return preview;
+    if (type==="PointCloud") return pointCloud;
+    if (type==="VideoPlayer") return videoPlayer;
+    if (type==="ortho") return ortho;
 }
 
     /*Rectangle {

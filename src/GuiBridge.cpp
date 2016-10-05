@@ -69,6 +69,7 @@ void GuiBridge::module_select(int index){
     //Запрос информации о модуле
     QString name = module_get_string("name");
     QString type = module_get_string("type");
+    module_type= module_get_string("type");
     QStringList threads = module_get_string_list("threadList");
     int thread = module_get_int("thread");
     cout << "Selected module " << name.toStdString()
@@ -83,6 +84,10 @@ void GuiBridge::module_select(int index){
 
     }
 
+}
+
+QString GuiBridge::get_module_type(){
+    return module_type;
 }
 
 //-------------------------------------------------------

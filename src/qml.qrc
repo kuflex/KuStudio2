@@ -5,7 +5,13 @@
         <file>DataType.qml</file>
         <file>DataName.qml</file>
         <file>ToolButtonStyle.qml</file>
-        <file>ParamsCamera.qml</file>
+        <file>ParamsPrimesense.qml</file>
         <file>TabStyle.qml</file>
+        <file>ParamsPreview.qml</file>
+        <file>ParamsVideoPlayer.qml</file>
+        <file>ParamsPointCloud.qml</file>
+        <file>ParamsOrtho.qml</file>
+        <file>ParamsOptFlow.qml</file>
+        <file>ParamsSenderOSC.qml</file>
     </qresource>
 </RCC>

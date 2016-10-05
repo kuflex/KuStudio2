@@ -17,6 +17,7 @@ public:
     Q_INVOKABLE bool project_save();
 
     Q_INVOKABLE QString get_file_name();
+    Q_INVOKABLE QString get_module_type();
 
 
     Q_INVOKABLE QStringList type_names();
@@ -59,5 +60,6 @@ private:
     void Inits();
 
     void error( QString message );  //вызывать в случае ошибки
+    QString module_type;
 
 };
