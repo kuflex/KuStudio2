@@ -13,5 +13,8 @@
         <file>ParamsOrtho.qml</file>
         <file>ParamsOptFlow.qml</file>
         <file>ParamsSenderOSC.qml</file>
+        <file>TextLine.qml</file>
+        <file>TextFields.qml</file>
+        <file>CheckBoxes.qml</file>
     </qresource>
 </RCC>

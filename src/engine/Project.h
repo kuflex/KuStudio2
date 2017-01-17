@@ -31,3 +31,6 @@ protected:
 };
 
 extern Project project;
+
+//Module *m = project.module();
+//QString name = m->get_string("name");

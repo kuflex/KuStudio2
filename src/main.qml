@@ -18,7 +18,7 @@ ApplicationWindow {
     property string module_type:""
 
     GuiBridge{
-        id:myWidget
+        id:bridge
     }
 
     TabStyle{
@@ -52,7 +52,7 @@ ApplicationWindow {
             title: qsTr("File")
             MenuItem {
                 text: qsTr("&New project")
-                onTriggered: {myWidget.project_new(); refresh_all()}
+                onTriggered: {bridge.project_new(); refresh_all()}
             }
             MenuItem {
                 text: qsTr("&Open project...")
@@ -93,7 +93,7 @@ ApplicationWindow {
                         butDel.enabled=false;
                         butAdd.enabled=false;
                         enabled=false;
-                        //myWidget.module_get_unlock("thread"); &&!!
+                        //bridge.module_get_unlock("thread"); &&!!
                     }
                 }
                 ToolButton {
@@ -116,7 +116,7 @@ ApplicationWindow {
 
         onAccepted: {
             var filename=projOpenDlg.fileUrl;
-            myWidget.project_open(filename);
+            bridge.project_open(filename);
             refresh_title("-");
         }
 
@@ -133,7 +133,7 @@ ApplicationWindow {
         onAccepted: {
             var filename=saveAsDlg.fileUrl;
             //my.save(filename, fileDlg.text);
-            myWidget.project_save_as(filename);
+            bridge.project_save_as(filename);
         }
 
     }
@@ -224,10 +224,12 @@ Rectangle{
                             width: 100
                         }
                     onClicked: { //onActivated
-                        myWidget.module_select(view.currentRow);
-                        win.module_type=myWidget.get_module_type();
+                        bridge.module_select(view.currentRow);
+                        win.module_type=bridge.get_module_type();
                         rightPart.sourceComponent=gui_get_paramTab(win.module_type);
                         mes.text=win.module_type;
+                        //mes.text=view.currentRow; выводит нормально
+                        //mes.text=primesense.param_name;//rightPart.sourceComponent
                         mes.open();
                     }
                 }
@@ -241,8 +243,8 @@ Rectangle{
                     id: butDel;
                     text:"Delete";
                     onClicked:{
-                        //myWidget.module_select(view.currentRow);
-                        var flag=myWidget.module_delete();
+                        //bridge.module_select(view.currentRow);
+                        var flag=bridge.module_delete();
                         if (flag) delModDlg.open();
                     }
                }
@@ -322,8 +324,8 @@ Rectangle{
 }
 
 function refresh_module_list(){
-    var temp=myWidget.module_names();
-    var count=myWidget.module_count();
+    var temp=bridge.module_names();
+    var count=bridge.module_count();
     dataName.clear();
     for(var i=0; i<count; i++){
        dataName.append({"name":temp[i]});
@@ -331,8 +333,8 @@ function refresh_module_list(){
 }
 
 function load_module_list(){
-    var temp=myWidget.module_names();
-    var count=myWidget.module_count();
+    var temp=bridge.module_names();
+    var count=bridge.module_count();
     for(var i=0; i<count; i++){
        dataName.append({"name":temp[i]});
     }
@@ -340,7 +342,7 @@ function load_module_list(){
 }
 
 function refresh_title(str){
-    win.proj=str+myWidget.get_file_name();
+    win.proj=str+bridge.get_file_name();
 }
 
 function refresh_all(){
@@ -359,6 +361,8 @@ function gui_get_paramTab(type){
     if (type==="VideoPlayer") return videoPlayer;
     if (type==="ortho") return ortho;
 }
+
+
 
     /*Rectangle {
         width: 200; height: 250

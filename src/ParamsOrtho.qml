@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.1
 
 TabView {
     style:tabStyle
+    property string param_name:"ortho"
     Tab {
         id:tab
         title: "Parameters"

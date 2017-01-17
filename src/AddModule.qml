@@ -149,10 +149,10 @@ Window {
        onAccepted: {close();}
    }
   function init_type_list(){
-      var count=myWidget.type_count();
-      var types=myWidget.type_names();
-      var descript=myWidget.type_desc();
-      win.propName=myWidget.module_prop_name();
+      var count=bridge.type_count();
+      var types=bridge.type_names();
+      var descript=bridge.type_desc();
+      win.propName=bridge.module_prop_name();
       for(var i=0; i<count; i++){
          dataType.append({"type":types[i], "desc":descript[i]});
       }
@@ -160,7 +160,7 @@ Window {
   }
   function add_module(){
       if (view1.currentRow!=-1){
-          var flag=myWidget.module_add(name.text, dataType.get(view1.currentRow).type);
+          var flag=bridge.module_add(name.text, dataType.get(view1.currentRow).type);
           if (flag){refresh_module_list(); win.close();}
       }
       else warningDlg.open();

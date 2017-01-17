@@ -6,6 +6,24 @@ import QtQuick.Layouts 1.1
 
 TabView {
     style:tabStyle
+    property string param_name:"preview"
     Tab {
+        id:tab
+        title: "Parameters"
+        Column{
+            anchors.fill:parent
+            anchors.margins: 10
+            spacing: 10
+            Text{text: "Type: "+"Preview"}
+            Column{
+                spacing:3
+                Text{text: "Name: "}
+                TextField{text: "Sender1"}
+            }
+            CheckBox {
+                text: qsTr("Enabled")
+                checked: true
+            }
+        }
     }
 }
