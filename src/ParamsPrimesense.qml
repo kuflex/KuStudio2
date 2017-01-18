@@ -38,7 +38,7 @@ TabView {
                 spacing:3
                 TextLine{text: "Name:"}
                 TextFields{
-                    text: "Camera1";
+                    text: bridge.module_get_string("name");
                     property string name: "name";
                 }
             }
@@ -118,6 +118,7 @@ TabView {
 
             }
             function params_fill(){
+
                 //var len = view_w.getTab()/*.item.children[0].length*/;
                 //mes.text=tab.children.length;
                 //mes.text=view_w.getTab(0).item.children[0].name;

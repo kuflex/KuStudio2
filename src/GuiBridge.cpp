@@ -72,17 +72,17 @@ void GuiBridge::module_select(int index){
     module_type= module_get_string("type");
     QStringList threads = module_get_string_list("threadList");
     int thread = module_get_int("thread");
-    cout << "Selected module " << name.toStdString()
-         << ", " << type.toStdString()
-         << ", thread " << threads[thread].toStdString() << endl;
+    //cout << "Selected module " << name.toStdString()
+    //     << ", " << type.toStdString()
+    //     << ", thread " << threads[thread].toStdString() << endl;
 
     //если камера - то выводим список устройств
-    if (type == "Primesense") {
+    /*if (type == "Primesense") {
         QStringList devices = module_get_string_list("deviceList");
-        int device = module_get_int("device");
-        cout << "      Device: " << devices[device].toStdString() << endl;
+        int device = module_get_int("deviceList");
+        //cout << "      Device: " << devices[device].toStdString() << endl;
 
-    }
+    }*/
 
 }
 

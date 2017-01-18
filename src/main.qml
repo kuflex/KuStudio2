@@ -360,6 +360,7 @@ function gui_get_paramTab(type){
     if (type==="PointCloud") return pointCloud;
     if (type==="VideoPlayer") return videoPlayer;
     if (type==="ortho") return ortho;
+    return "";
 }
 
 
