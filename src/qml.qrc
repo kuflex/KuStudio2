@@ -16,5 +16,7 @@
         <file>TextLine.qml</file>
         <file>TextFields.qml</file>
         <file>CheckBoxes.qml</file>
+        <file>DataDevice.qml</file>
+        <file>DataThread.qml</file>
     </qresource>
 </RCC>

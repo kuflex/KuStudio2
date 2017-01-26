@@ -9,6 +9,13 @@ TabView {
     style:tabStyle
     property string param_name:"primesense"
 
+    ListModel{
+        id:dataThread
+    }
+    ListModel{
+        id:dataResol
+    }
+
 
     Tab {
 
@@ -29,8 +36,9 @@ TabView {
                 spacing:3
                 TextLine{text: "Type:"}
                 TextFields{
+                    id:fieldType
                     //text: "PrimeSenseCamera"
-                    text: bridge.module_get_string("type")
+                    text:""
                     property string name: "type";
                 }
             }
@@ -38,14 +46,15 @@ TabView {
                 spacing:3
                 TextLine{text: "Name:"}
                 TextFields{
-                    text: bridge.module_get_string("name");
+                    id:fieldName
+                    text: ""
                     property string name: "name";
                 }
             }
             CheckBoxes {
-                id:ch
+                id:chEnabled
                 text: qsTr("Enabled")
-                checked: true
+                //checked: true
                 property string name: "enabled"
             }
             Column{
@@ -58,7 +67,7 @@ TabView {
                     //anchors.fill: parent
                     width:tab.width-20
                     height:120
-                    model: dataName
+                    model: dataDevice
                     headerVisible: false
                     backgroundVisible:false
                     alternatingRowColors:false
@@ -68,18 +77,33 @@ TabView {
                             width: parent.width
                         }
                     onClicked: { //onActivated
-                        bridge.module_select(view.currentRow);
+                        //bridge.module_select(view.currentRow);
                     }
+                    property string name: "deviceList"
                 }
             }
             Column{
                 spacing:3
                 TextLine{text: "Res/FPS:"}
                 ComboBox {
+                    id:resol
                     width: tab.width-20
-                    model: [ "640x480,  30 FPS", "320x240,  60 FPS" ]
-                    //property string name:"resolutionList"   ???
+                    //model: [ "640x480,  30 FPS", "320x240,  60 FPS" ]
+                    model:dataResol
+                    property string name:"resolutionList"
                     property string type: "model"
+                }
+            }
+            Column{
+                spacing:3
+                TextLine{text: "Thread"}
+                ComboBox {
+                    id:thread
+                    width: tab.width-20
+                    //model: [ "Main", "2nd", "3rd", "4th", "5th" ]
+                    model:dataThread
+                    property string type: "model"
+                    property string name: "threadList"
                 }
             }
             Column{
@@ -118,6 +142,13 @@ TabView {
 
             }
             function params_fill(){
+                    fieldType.text=bridge.module_get_string(fieldType.name);
+                    fieldName.text=bridge.module_get_string(fieldName.name);
+                    chEnabled.checked=bridge.module_get_bool(chEnabled.name);
+                    fill_device_list();
+                    fill_thread_list();
+                    fill_resol_list();
+
 
                 //var len = view_w.getTab()/*.item.children[0].length*/;
                 //mes.text=tab.children.length;
@@ -150,6 +181,30 @@ TabView {
             function get_params(type, name){
 
             }
+
+            function fill_device_list(){
+                dataDevice.clear();
+                var devices=bridge.module_get_string_list(view.name);
+                for(var i=0; i<devices.length; i++){
+                   dataDevice.append({"name":devices[i]});
+                }
+            }
+
+            function fill_thread_list(){
+                dataThread.clear();
+                var threads=bridge.module_get_string_list(thread.name);
+                for(var i=0; i<threads.length; i++){
+                   dataThread.append({"name":threads[i]});
+                }
+            }
+            function fill_resol_list(){
+                dataResol.clear();
+                var resolutions=bridge.module_get_string_list(resol.name);
+                for(var i=0; i<resolutions.length; i++){
+                   dataResol.append({"name":resolutions[i]});
+                }
+            }
+
 
         }
 

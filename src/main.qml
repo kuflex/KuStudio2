@@ -37,6 +37,9 @@ ApplicationWindow {
     DataName{
         id:dataName
     }
+    DataDevice{
+        id:dataDevice
+    }
 
     /*ParamsCamera{
         id:paramsCamera
@@ -227,10 +230,10 @@ Rectangle{
                         bridge.module_select(view.currentRow);
                         win.module_type=bridge.get_module_type();
                         rightPart.sourceComponent=gui_get_paramTab(win.module_type);
-                        mes.text=win.module_type;
-                        //mes.text=view.currentRow; выводит нормально
-                        //mes.text=primesense.param_name;//rightPart.sourceComponent
-                        mes.open();
+                        //mes.text=win.module_type;
+                            //mes.text=view.currentRow; выводит нормально
+                            //mes.text=primesense.param_name;//rightPart.sourceComponent
+                        //mes.open();
                     }
                 }
             }
