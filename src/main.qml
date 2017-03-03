@@ -37,13 +37,11 @@ ApplicationWindow {
     DataName{
         id:dataName
     }
-    DataDevice{
-        id:dataDevice
-    }
 
-    /*ParamsCamera{
-        id:paramsCamera
-    }*/
+
+    ParamsPrimesense{
+        id:paramsPrime
+    }
 
     Component.onCompleted: {
        load_module_list();
@@ -230,6 +228,7 @@ Rectangle{
                         bridge.module_select(view.currentRow);
                         win.module_type=bridge.get_module_type();
                         rightPart.sourceComponent=gui_get_paramTab(win.module_type);
+                        //paramsPrime.children.params_fill();???
                         //mes.text=win.module_type;
                             //mes.text=view.currentRow; выводит нормально
                             //mes.text=primesense.param_name;//rightPart.sourceComponent
@@ -295,6 +294,19 @@ Rectangle{
         anchors.right: parent.right
         width:150;
         sourceComponent: primesense
+        onLoaded: {
+           item.params_fill();
+
+            //mes.text=item.param_name;
+            //mes.open();
+       }
+//        Component.onCompleted:{
+//            item.params_fill;
+
+//             //mes.text=item.param_name;
+//             //mes.open();
+//        }
+
     }
     Component {
         id:primesense

@@ -69,6 +69,13 @@ int ModulePrimesense::get_int(QString param_name) {
 //-------------------------------------------------------
 bool ModulePrimesense::get_bool(QString param_name) {
     if ( param_name == "enabled" ) return enabled;
+
+    if ( param_name == "out_depth" ) return out_depth;
+    if ( param_name == "out_image" ) return out_image;
+    if ( param_name == "out_XYZ" ) return out_XYZ;
+    if ( param_name == "out_XYZ_RGB" ) return out_XYZ_RGB;
+    if ( param_name == "out_labels" ) return out_labels;
+    if ( param_name == "out_skeleton" ) return out_skeleton;
     error("no param " + param_name);
     return 0;
 }

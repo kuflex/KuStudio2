@@ -10,7 +10,12 @@ TabView {
     Tab {
         id:tab
         title: "Parameters"
+        property var comp:enabled
         Column{
+
+            Component.onCompleted: {
+               params_fill();
+            }
             anchors.fill:parent
             anchors.margins: 10
             spacing: 10
@@ -21,9 +26,25 @@ TabView {
                 TextField{text: "Sender1"}
             }
             CheckBox {
+                id:enabled
                 text: qsTr("Enabled")
-                checked: true
+                //checked: true
             }
+
+//            function params_fill(){
+//                //mes.text="goodbuy";
+//                //mes.open();
+//            }
         }
+
+
     }
+    function params_fill(){
+        //tab.comp.checked=true;
+       //mes.text="goodbuy";
+       //mes.open();
+
+    }
+
+
 }

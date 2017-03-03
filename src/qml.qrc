@@ -18,5 +18,6 @@
         <file>CheckBoxes.qml</file>
         <file>DataDevice.qml</file>
         <file>DataThread.qml</file>
+        <file>DataResol.qml</file>
     </qresource>
 </RCC>
