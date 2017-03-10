@@ -22,6 +22,7 @@ struct Module {
     Module(QString name0, QString type0) {
         name = name0;
         type = type0;
+        cout<<"!!!! "<<type.toStdString()<<endl;
         enabled = true;
     }
     virtual ~Module() {}

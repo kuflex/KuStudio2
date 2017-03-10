@@ -181,6 +181,17 @@ void GuiBridge::module_set_bool(QString param_name, bool value) {
     if (project.module()) project.module()->set_bool(param_name, value);
 }
 //-------------------------------------------------------
+int GuiBridge::getIndex(){
+    return project.getIndex();
+}
 
+//-------------------------------------------------------
+void GuiBridge::setIndex(int index){
+    //Project proj(index);
+    project.setIndex(index);
+
+}
+
+//-------------------------------------------------------
 
 

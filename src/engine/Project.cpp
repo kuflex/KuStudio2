@@ -5,10 +5,12 @@
 
 Project project;
 
-
 //-------------------------------------------------------
 Project::Project() {
     index_ = 0;
+    //index_=getIndex();
+    //cout<<index_<<" !!!!!!!!!! "<<endl;
+
 
     module_add("Preview", "preview");
     module_add("Camera1", "Primesense");
@@ -105,3 +107,15 @@ bool Project::module_delete() {
 }
 
 //-------------------------------------------------------
+int Project::getIndex(){
+    return index_;
+}
+
+//-------------------------------------------------------
+void Project::setIndex(int index){
+    index_=index;
+
+}
+
+//-------------------------------------------------------
+

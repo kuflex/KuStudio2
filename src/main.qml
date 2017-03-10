@@ -45,6 +45,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
        load_module_list();
+
     }
 
 
@@ -295,7 +296,9 @@ Rectangle{
         width:150;
         sourceComponent: primesense
         onLoaded: {
-           item.params_fill();
+
+           //bridge.setIndex(1);
+           item.prop;
 
             //mes.text=item.param_name;
             //mes.open();
@@ -353,6 +356,16 @@ function load_module_list(){
     for(var i=0; i<count; i++){
        dataName.append({"name":temp[i]});
     }
+
+    bridge.setIndex(1);
+
+    //bridge.module_select(1);
+    /*win.module_type=bridge.get_module_type();
+
+    mes.text=win.module_type;
+    mes.open();
+
+    rightPart.sourceComponent=gui_get_paramTab(win.module_type);*/
 
 }
 

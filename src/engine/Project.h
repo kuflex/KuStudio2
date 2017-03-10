@@ -7,6 +7,7 @@
 //Проект
 struct Project {
     Project();
+    Project(int index);
 
     void projectNew();
     void projectOpen(QString file_name);
@@ -22,6 +23,9 @@ struct Project {
 
     bool indexValid();  //возвращает true, если выбранный индекс правильный, от 0 до module_.size()-1
     Module *module();   //возвращает текущий модуль, или 0 если нет модуля
+
+    int getIndex();
+    void setIndex(int index);
 
 protected:
     QString file_name_;

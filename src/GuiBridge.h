@@ -52,6 +52,9 @@ public:
     Q_INVOKABLE void module_set_int(QString param_name, int value);
     Q_INVOKABLE void module_set_bool(QString param_name, bool value);
 
+    Q_INVOKABLE int getIndex();
+    Q_INVOKABLE void setIndex(int index);
+
 
 
 //--------------------------------------
