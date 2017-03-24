@@ -45,6 +45,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
        load_module_list();
+       view.selection.select(0); //выделение первой строчки в левой части
 
     }
 
@@ -187,6 +188,7 @@ Rectangle{
     width:parent.width;
     height:parent.height;
     color:"lightblue"
+    anchors.fill: parent
 
     Rectangle{
         id:leftPart
@@ -225,12 +227,15 @@ Rectangle{
                             //title: "Title"
                             width: 100
                         }
-                    onClicked: { //onActivated
+                    onClicked: {
                         bridge.module_select(view.currentRow);
                         win.module_type=bridge.get_module_type();
                         rightPart.sourceComponent=gui_get_paramTab(win.module_type);
+                        //var temp=gui_get_paramTab(win.module_type);
+                        //rightPart.setSource(temp);
+                        //mes.text=bridge.get_module_type();
                         //paramsPrime.children.params_fill();???
-                        //mes.text=win.module_type;
+
                             //mes.text=view.currentRow; выводит нормально
                             //mes.text=primesense.param_name;//rightPart.sourceComponent
                         //mes.open();
@@ -287,30 +292,52 @@ Rectangle{
         anchors.right: parent.right
         width:150;
     }*/
+
+
+
+   /* MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        property bool flag:false
+
+        onMouseXChanged: {
+            if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25 || mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25){
+                if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25 ) {
+                    mouseArea.cursorShape=Qt.SizeHorCursor;
+                    rightPart.width=parent.width-mouseArea.mouseX;
+                }
+
+                if (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25) {
+                    mouseArea.cursorShape=Qt.SizeHorCursor;
+                    leftPart.width=mouseArea.mouseX;
+                }
+            }
+            else mouseArea.cursorShape=Qt.ArrowCursor;
+        }
+    }*/
+
     Loader {
         id:rightPart
         anchors.margins: 5
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         anchors.right: parent.right
-        width:150;
-        sourceComponent: primesense
+        width: 180
+
+
         onLoaded: {
+        }
+        Component.onCompleted:{
 
-           //bridge.setIndex(1);
-           item.prop;
-
-            //mes.text=item.param_name;
-            //mes.open();
-       }
-//        Component.onCompleted:{
-//            item.params_fill;
-
-//             //mes.text=item.param_name;
-//             //mes.open();
-//        }
+            bridge.module_select(0);
+            win.module_type=bridge.get_module_type();
+            rightPart.sourceComponent=gui_get_paramTab(win.module_type);
+            item.prop;
+        }
 
     }
+
+
     Component {
         id:primesense
         ParamsPrimesense{}
@@ -356,17 +383,6 @@ function load_module_list(){
     for(var i=0; i<count; i++){
        dataName.append({"name":temp[i]});
     }
-
-    bridge.setIndex(1);
-
-    //bridge.module_select(1);
-    /*win.module_type=bridge.get_module_type();
-
-    mes.text=win.module_type;
-    mes.open();
-
-    rightPart.sourceComponent=gui_get_paramTab(win.module_type);*/
-
 }
 
 function refresh_title(str){
@@ -383,11 +399,11 @@ function get_select_module(){
 }
 
 function gui_get_paramTab(type){
-    if (type==="Primesense") return primesense;
-    if (type==="preview") return preview;
-    if (type==="PointCloud") return pointCloud;
-    if (type==="VideoPlayer") return videoPlayer;
-    if (type==="ortho") return ortho;
+    if (type==="Primesense" || type==="primesense") return primesense;
+    if (type==="preview" || type==="Preview") return preview;
+    if (type==="PointCloud" || type==="pointCloud") return pointCloud;
+    if (type==="VideoPlayer" || type==="videoPlayer") return videoPlayer;
+    if (type==="ortho" || type==="Ortho") return ortho;
     return "";
 }
 

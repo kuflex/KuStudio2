@@ -21,11 +21,9 @@ bool Module::get_unlock(QString param_name) {
 //-------------------------------------------------------
 QString Module::get_string(QString param_name) {
     if ( param_name == "name" ) {
-        cout<<"name!! "<<name.toStdString()<<endl;
         return name;
     }
     if ( param_name == "type" ) {
-        cout<<"! "<<type.toStdString()<<endl;
         return type;
     }
     error("no param " + param_name);

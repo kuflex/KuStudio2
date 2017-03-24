@@ -4,6 +4,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.1
 import QtQuick.Layouts 1.1
 
+
 TabView {
     id:view_w
     style:tabStyle
@@ -18,7 +19,7 @@ TabView {
         id:dataThread
     }
 
-    DataDevice{
+   ListModel{ // DataDevice
         id:dataDevice
     }
 
@@ -30,11 +31,41 @@ TabView {
     Tab {
         id:tab
         title: "Parameters"
+
+
+
         property string compFieldType:""
         property string nameFieldType:"type"
 
         property string compFieldName:""
         property string nameFieldName:"name"
+
+        property bool compChEnabled
+        property string nameChEnabled:"enabled"
+
+        property string nameView:"deviceList"
+        property string nameResol:"resolutionList"
+        property string nameThread:"threadList"
+
+        property bool compDepth
+        property string nameDepth:"out_depth"
+
+        property bool compRgb
+        property string nameRgb:"out_image"
+
+        property bool compXyz
+        property string nameXyz:"out_XYZ"
+
+        property bool compXyzRgb
+        property string nameXyzRgb:"out_XYZ_RGB"
+
+        property bool compLabels
+        property string nameLabels:"out_labels"
+
+        property bool compSkeleton
+        property string nameSkeleton:"out_skeleton"
+
+
 
               Item{
                   id:item
@@ -51,7 +82,7 @@ TabView {
                         anchors.topMargin: 3
                         anchors.top: typeTx.bottom
                         text:tab.compFieldType
-                        //property string name: "type";
+                        property string name: "type";
                     }
 
 
@@ -77,7 +108,7 @@ TabView {
                         anchors.bottomMargin: 7
                         anchors.top: fieldName.bottom
                         text: qsTr("Enabled")
-                        //checked: true
+                        checked:tab.compChEnabled
                         property string name: "enabled"
                     }
 
@@ -95,8 +126,6 @@ TabView {
                         anchors.bottomMargin: 7
                         anchors.top: deviceTx.bottom
                         property string type: "model"
-                        //anchors.margins: 3
-                        //anchors.fill: parent
                         width:tab.width-20
                         height:120
                         model: dataDevice
@@ -108,7 +137,7 @@ TabView {
                                 role: "name"
                                 width: parent.width
                             }
-                        onClicked: { //onActivated
+                        onClicked: {
                             //bridge.module_select(view.currentRow);
                         }
                         property string name: "deviceList"
@@ -170,7 +199,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: outputTx.bottom
                         text: qsTr("Depth")
-                        //checked: true
+                        checked: tab.compDepth
                         property string name:"out_depth"
                     }
                     CheckBoxes {
@@ -179,7 +208,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: depth.bottom
                         text: qsTr("RGB")
-                        //checked: true
+                        checked: tab.compRgb
                         property string name:"out_image"
                     }
                     CheckBoxes {
@@ -188,7 +217,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: rgb.bottom
                         text: qsTr("XYZ")
-                        //checked: false
+                        checked: tab.compXyz
                         property string name:"out_XYZ"
                     }
                     CheckBoxes {
@@ -197,7 +226,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: xyz.bottom
                         text: qsTr("XYZ+RGB")
-                        //checked: false
+                        checked: tab.compXyzRgb
                         property string name:"out_XYZ_RGB"
                     }
                     CheckBoxes {
@@ -206,7 +235,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: xyzRgb.bottom
                         text: qsTr("Labels")
-                        //checked: false
+                        checked: tab.compLabels
                         property string name:"out_labels"
                     }
                     CheckBoxes {
@@ -215,7 +244,7 @@ TabView {
                         anchors.bottomMargin: 3
                         anchors.top: labels.bottom
                         text: qsTr("Skeleton")
-                        //checked: false
+                        checked: tab.compSkeleton
                         property string name:"out_skeleton"
                     }
 
@@ -227,40 +256,20 @@ TabView {
 
     function params_fill(){
 
-        //depth.checked=true;
-
-
-
-
-            tab.compFieldType=bridge.module_get_string(tab.nameFieldType); //fieldType
-
-        //mes.text=tab.compFieldType;
-        //mes.open();
-
+            tab.compFieldType=bridge.module_get_string(tab.nameFieldType);
             tab.compFieldName=bridge.module_get_string(tab.nameFieldName);
-            //chEnabled.checked=bridge.module_get_bool(chEnabled.name);
+            tab.compChEnabled=bridge.module_get_bool(tab.nameChEnabled);
 
-        //depth.checked=bridge.module_get_bool(depth.name);
-        //rgb.checked=bridge.module_get_bool(rgb.name);
-        //xyz.checked=bridge.module_get_bool(xyz.name);
-        //xyzRgb.checked=bridge.module_get_bool(xyzRgb.name);
-        //labels.checked=bridge.module_get_bool(labels.name);
-        //skeleton.checked=bridge.module_get_bool(skeleton.name);
+            tab.compDepth=bridge.module_get_bool(tab.nameDepth);
+            tab.compRgb=bridge.module_get_bool(tab.nameRgb);
+            tab.compXyz=bridge.module_get_bool(tab.nameXyz);
+            tab.compXyzRgb=bridge.module_get_bool(tab.nameXyzRgb);
+            tab.compLabels=bridge.module_get_bool(tab.nameLabels);
+            tab.compSkeleton=bridge.module_get_bool(tab.nameSkeleton);
 
-            //fill_device_list();
-            //fill_thread_list();
-            //fill_resol_list();
-
-
-        //var flag=bridge.module_get_bool(rgb.name);
-        //mes.text=flag;
-        //mes.open();
-
-
-        //var len = view_w.getTab()/*.item.children[0].length*/;
-        //mes.text=tab.children.length;
-        //mes.text=view_w.getTab(0).item.children[0].name;
-//                mes.text=column.children[0].children.length;
+            fill_device_list();
+            fill_thread_list();
+            fill_resol_list();
 
 
 
@@ -294,7 +303,7 @@ function get_params(type, name){
 
 function fill_device_list(){
     dataDevice.clear();
-    var devices=bridge.module_get_string_list(view.name);
+    var devices=bridge.module_get_string_list(tab.nameView);
     for(var i=0; i<devices.length; i++){
        dataDevice.append({"name":devices[i]});
     }
@@ -302,14 +311,14 @@ function fill_device_list(){
 
 function fill_thread_list(){
     dataThread.clear();
-    var threads=bridge.module_get_string_list(thread.name);
+    var threads=bridge.module_get_string_list(tab.nameThread);
     for(var i=0; i<threads.length; i++){
        dataThread.append({"name":threads[i]});
     }
 }
 function fill_resol_list(){
     dataResol.clear();
-    var resolutions=bridge.module_get_string_list(resol.name);
+    var resolutions=bridge.module_get_string_list(tab.nameResol);
     for(var i=0; i<resolutions.length; i++){
        dataResol.append({"name":resolutions[i]});
     }

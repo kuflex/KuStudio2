@@ -8,9 +8,6 @@ Project project;
 //-------------------------------------------------------
 Project::Project() {
     index_ = 0;
-    //index_=getIndex();
-    //cout<<index_<<" !!!!!!!!!! "<<endl;
-
 
     module_add("Preview", "preview");
     module_add("Camera1", "Primesense");
