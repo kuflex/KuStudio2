@@ -51,6 +51,7 @@ ApplicationWindow {
 
 
     menuBar: MenuBar {
+        id:menuBar
         Menu {
             title: qsTr("File")
             MenuItem {
@@ -85,6 +86,7 @@ ApplicationWindow {
     }
 
     toolBar:ToolBar {
+        id:toolBar
             RowLayout {
                 anchors.centerIn: parent
                 ToolButton {
@@ -295,16 +297,18 @@ Rectangle{
 
 
 
-   /* MouseArea {
+    MouseArea {
         id: mouseArea
         anchors.fill: parent
         property bool flag:false
 
         onMouseXChanged: {
-            if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25 || mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25){
-                if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25 ) {
+            if ((mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) || (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25)){
+                if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) {
                     mouseArea.cursorShape=Qt.SizeHorCursor;
-                    rightPart.width=parent.width-mouseArea.mouseX;
+
+                    if (rightPart.width>179) rightPart.width=parent.width-mouseArea.mouseX;
+                    else rightPart.width=180;
                 }
 
                 if (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25) {
@@ -314,6 +318,26 @@ Rectangle{
             }
             else mouseArea.cursorShape=Qt.ArrowCursor;
         }
+    }
+
+    /*MouseArea {
+        id: mouseArea
+        //anchors.fill: parent
+        property bool flag:false
+        x:parent.width-rightPart.width-25;
+        y:menuBar.height+toolBar.height;
+        width:50
+        height:rightPart.height;
+        //enabled:false
+
+        hoverEnabled:true
+        onEntered: if (containsMouse) mouseArea.cursorShape=Qt.SizeHorCursor; else mouseArea.cursorShape=Qt.ArrowCursor;
+        onPressed: {
+            //mes.text="hello!";
+            //mes.open();
+            //onMouseXChanged:rightPart.width=parent.width-mouseArea.mouseX;
+        }
+        onPressAndHold: rightPart.width=parent.width-(mouseArea.mouseX);
     }*/
 
     Loader {
