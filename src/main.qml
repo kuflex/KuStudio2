@@ -14,6 +14,36 @@ ApplicationWindow {
     height: 600
     title: qsTr("KuStudio2 "+proj)
 
+    property double pw:800/600;
+
+    onHeightChanged: {}
+    onWidthChanged: {
+        if (pw<width/height){ //расширяем окно
+            if (width/height<1){
+                leftPart.width=leftPart.width*height/width;
+                rightPart.width=rightPart.width*height/width;
+            }
+            else {
+                leftPart.width=leftPart.width*width/height;
+                rightPart.width=rightPart.width*width/height;
+            }
+
+        }
+        if (pw>width/height) {  //сворачиваем окно
+            if (width/height>1){
+                leftPart.width=leftPart.width*1/pw;
+                rightPart.width=rightPart.width*1/pw;
+            }
+            else {
+                leftPart.width=leftPart.width*pw;
+                rightPart.width=rightPart.width*pw;
+            }
+        }
+
+        pw=width/height;
+
+    }
+
     property string proj:""
     property string module_type:""
 
@@ -301,44 +331,69 @@ Rectangle{
         id: mouseArea
         anchors.fill: parent
         property bool flag:false
+        enabled:false
 
         onMouseXChanged: {
-            if ((mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) || (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25)){
                 if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) {
-                    mouseArea.cursorShape=Qt.SizeHorCursor;
 
-                    if (rightPart.width>179) rightPart.width=parent.width-mouseArea.mouseX;
-                    else rightPart.width=180;
+                    if (rightPart.width>179 && rightPart.width<(1.0/3*win.width+10))
+                         rightPart.width=parent.width-mouseArea.mouseX;
+                    else if (rightPart.width<=179)
+                            rightPart.width=180;
+                         else rightPart.width=1.0/3*win.width+9;
                 }
 
                 if (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25) {
-                    mouseArea.cursorShape=Qt.SizeHorCursor;
-                    leftPart.width=mouseArea.mouseX;
+
+                    if (leftPart.width>rowBut.width-1 && leftPart.width<(1.0/3*win.width-10))
+                         leftPart.width=mouseArea.mouseX;
+                    else if (leftPart.width<=rowBut.width-1)
+                            leftPart.width=rowBut.width;
+                         else leftPart.width=1.0/3*win.width-11;
                 }
-            }
-            else mouseArea.cursorShape=Qt.ArrowCursor;
+        }
+        onReleased: {
+            mouseArea.enabled=false;
+            rightMouseArea.enabled=true;
+            leftMouseArea.enabled=true;
         }
     }
 
-    /*MouseArea {
-        id: mouseArea
-        //anchors.fill: parent
+    MouseArea {
+        id: rightMouseArea
         property bool flag:false
-        x:parent.width-rightPart.width-25;
+        x:win.width-rightPart.width-25;
         y:menuBar.height+toolBar.height;
         width:50
         height:rightPart.height;
-        //enabled:false
+        enabled:true
 
         hoverEnabled:true
-        onEntered: if (containsMouse) mouseArea.cursorShape=Qt.SizeHorCursor; else mouseArea.cursorShape=Qt.ArrowCursor;
-        onPressed: {
-            //mes.text="hello!";
-            //mes.open();
-            //onMouseXChanged:rightPart.width=parent.width-mouseArea.mouseX;
+        onEntered: if (containsMouse) rightMouseArea.cursorShape=Qt.SizeHorCursor;
+                   else rightMouseArea.cursorShape=Qt.ArrowCursor;
+        onMouseXChanged: {
+           mouseArea.enabled=true;
+           rightMouseArea.enabled=false;
         }
-        onPressAndHold: rightPart.width=parent.width-(mouseArea.mouseX);
-    }*/
+    }
+
+    MouseArea {
+        id: leftMouseArea
+        property bool flag:false
+        x:leftPart.width-25;
+        y:menuBar.height+toolBar.height;
+        width:50
+        height:leftPart.height;
+        enabled:true
+
+        hoverEnabled:true
+        onEntered: if (containsMouse) leftMouseArea.cursorShape=Qt.SizeHorCursor;
+                   else leftMouseArea.cursorShape=Qt.ArrowCursor;
+        onMouseXChanged: {
+           mouseArea.enabled=true;
+           leftMouseArea.enabled=false;
+        }
+    }
 
     Loader {
         id:rightPart
