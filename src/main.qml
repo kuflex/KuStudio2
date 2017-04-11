@@ -325,6 +325,33 @@ Rectangle{
         width:150;
     }*/
 
+    states:[
+        State{
+            name:"State1"
+            PropertyChanges{
+                target:leftMouseArea
+                enabled:true
+            }
+            PropertyChanges{
+                target:mouseArea
+                enabled:false
+            }
+        },
+        State{
+            name:"State2"
+            PropertyChanges{
+                target:leftMouseArea
+                enabled:false
+            }
+            PropertyChanges{
+                target:mouseArea
+                enabled:true
+
+
+            }
+        }
+
+    ]
 
 
     MouseArea {
@@ -332,6 +359,7 @@ Rectangle{
         anchors.fill: parent
         property bool flag:false
         enabled:false
+
 
         onMouseXChanged: {
                 if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) {
@@ -351,11 +379,19 @@ Rectangle{
                             leftPart.width=rowBut.width;
                          else leftPart.width=1.0/3*win.width-11;
                 }
+
+                mouseArea.enabled=false;
+                rightMouseArea.enabled=true;
+                leftMouseArea.enabled=true;
+                //parent.state="State1";
+
+
         }
-        onReleased: {
-            mouseArea.enabled=false;
-            rightMouseArea.enabled=true;
-            leftMouseArea.enabled=true;
+        onClicked: {
+//            mouseArea.enabled=false;
+//            rightMouseArea.enabled=true;
+//            leftMouseArea.enabled=true;
+
         }
     }
 
@@ -369,11 +405,13 @@ Rectangle{
         enabled:true
 
         hoverEnabled:true
-        onEntered: if (containsMouse) rightMouseArea.cursorShape=Qt.SizeHorCursor;
-                   else rightMouseArea.cursorShape=Qt.ArrowCursor;
+        onEntered: {if (containsMouse) rightMouseArea.cursorShape=Qt.SizeHorCursor;
+                   else rightMouseArea.cursorShape=Qt.ArrowCursor;}
+
         onMouseXChanged: {
-           mouseArea.enabled=true;
-           rightMouseArea.enabled=false;
+            if (rightMouseArea.pressed){
+               mouseArea.enabled=true;
+               rightMouseArea.enabled=false;}
         }
     }
 
@@ -390,8 +428,11 @@ Rectangle{
         onEntered: if (containsMouse) leftMouseArea.cursorShape=Qt.SizeHorCursor;
                    else leftMouseArea.cursorShape=Qt.ArrowCursor;
         onMouseXChanged: {
+            if (leftMouseArea.pressed){
+                //parent.state="State2";
+
            mouseArea.enabled=true;
-           leftMouseArea.enabled=false;
+           leftMouseArea.enabled=false;}
         }
     }
 

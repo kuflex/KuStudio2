@@ -32,8 +32,6 @@ TabView {
         id:tab
         title: "Parameters"
 
-
-
         property string compFieldType:""
         property string nameFieldType:"type"
 
@@ -83,6 +81,7 @@ TabView {
                         anchors.top: typeTx.bottom
                         text:tab.compFieldType
                         property string name: "type";
+                        readOnly: true
                     }
 
 
@@ -100,6 +99,9 @@ TabView {
                         anchors.top: nameTx.bottom
                         text: tab.compFieldName
                         property string name: "name";
+                        onEditingFinished: {
+                            bridge.module_set_string(name, text);
+                        }
                     }
 
                     CheckBoxes {
@@ -110,6 +112,14 @@ TabView {
                         text: qsTr("Enabled")
                         checked:tab.compChEnabled
                         property string name: "enabled"
+//                        onCheckedChanged: {
+//                           bridge.module_set_bool(name, checked);
+//                        }
+                        onClicked: {
+                           bridge.module_set_bool(name, checked);
+//                            mes.text=checked;
+//                            mes.open();
+                        }
                     }
 
 
@@ -138,7 +148,8 @@ TabView {
                                 width: parent.width
                             }
                         onClicked: {
-                            //bridge.module_select(view.currentRow);
+//                            mes.text=view.currentRow;
+//                            mes.open();
                         }
                         property string name: "deviceList"
                     }
@@ -160,8 +171,14 @@ TabView {
                         textRole: "name"
                         //model: [ "640x480,  30 FPS", "320x240,  60 FPS" ]
                         model:dataResol
-                        property string name:"resolutionList"
+                        property string name:"resolution"
                         property string type: "model"
+                        onCurrentIndexChanged:{
+                            bridge.module_set_int(name, currentIndex);
+                            //mes.text=currentIndex;
+                            //mes.open();
+                        }
+
                     }
 
 

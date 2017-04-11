@@ -84,6 +84,8 @@ void Module::set_float(QString param_name, float value) {
 //-------------------------------------------------------
 void Module::set_int(QString param_name, int value) {
     if ( param_name == "thread" ) { thread = value; return; }
+    if ( param_name == "resolution" ) { resolution = value; return; }
+
 
     error("no param " + param_name);
 }

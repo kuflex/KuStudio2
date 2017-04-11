@@ -19,6 +19,7 @@ struct Module {
     QString type;
     bool enabled;
     int thread;
+    int resolution;
     Module(QString name0, QString type0) {
         name = name0;
         type = type0;

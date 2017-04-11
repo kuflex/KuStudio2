@@ -51,6 +51,7 @@ TabView {
                 anchors.top: typeTx.bottom
                 text:"Preview"
                 property string name: "type";
+                readOnly: true
             }
 
             Text{

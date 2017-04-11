@@ -38,6 +38,7 @@ TabView {
         property int compYSlider:0
         property int compScale:0
 
+
         Item{
             id:item
             anchors.fill:parent
@@ -54,6 +55,7 @@ TabView {
                 anchors.top: typeTx.bottom
                 text:tab.compFieldType
                 property string name: "type";
+                readOnly: true
             }
 
 
@@ -71,6 +73,10 @@ TabView {
                 anchors.top: nameTx.bottom
                 text: tab.compFieldName
                 property string name: "name";
+//                onTextChanged:  {
+//                                   mes.text="hello1";
+//                                   mes.open();
+//                               }
             }
 
             CheckBoxes {
