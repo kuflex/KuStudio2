@@ -9,7 +9,7 @@ TabView {
     id:view_w
     style:tabStyle
     property string param_name:"primesense"
-    property var prop:params_fill()
+    //property var prop:params_fill()
 
 
     DataResol{
@@ -273,8 +273,11 @@ TabView {
 
     function params_fill(){
 
+
             tab.compFieldType=bridge.module_get_string(tab.nameFieldType);
             tab.compFieldName=bridge.module_get_string(tab.nameFieldName);
+        //mes.text="helllllloooooooooo";
+        //mes.open();
             tab.compChEnabled=bridge.module_get_bool(tab.nameChEnabled);
 
             tab.compDepth=bridge.module_get_bool(tab.nameDepth);

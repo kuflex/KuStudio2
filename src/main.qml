@@ -14,10 +14,13 @@ ApplicationWindow {
     height: 600
     title: qsTr("KuStudio2 "+proj)
 
+
     property double pw:800/600;
+    property double kl: leftPart.width/win.width
+    property double kr: rightPart.width/win.width
 
     onHeightChanged: {}
-    onWidthChanged: {
+    /*onWidthChanged: {
         if (pw<width/height){ //расширяем окно
             if (width/height<1){
                 leftPart.width=leftPart.width*height/width;
@@ -31,8 +34,8 @@ ApplicationWindow {
         }
         if (pw>width/height) {  //сворачиваем окно
             if (width/height>1){
-                leftPart.width=leftPart.width*1/pw;
-                rightPart.width=rightPart.width*1/pw;
+                leftPart.width=leftPart.width*1/(pw);
+                rightPart.width=rightPart.width*1/(pw);
             }
             else {
                 leftPart.width=leftPart.width*pw;
@@ -42,6 +45,11 @@ ApplicationWindow {
 
         pw=width/height;
 
+    }*/
+
+    onWidthChanged: {
+        leftPart.width=kl*win.width;
+        rightPart.width=kr*win.width;
     }
 
     property string proj:""
@@ -230,6 +238,7 @@ Rectangle{
         anchors.bottom: parent.bottom
         width:rowBut.width;
         color:"lightblue"
+        onWidthChanged: win.kl=width/win.width
 
 
             Component {
@@ -262,12 +271,18 @@ Rectangle{
                     onClicked: {
                         bridge.module_select(view.currentRow);
                         win.module_type=bridge.get_module_type();
-                        rightPart.sourceComponent=gui_get_paramTab(win.module_type);
-                        //var temp=gui_get_paramTab(win.module_type);
-                        //rightPart.setSource(temp);
-                        //mes.text=bridge.get_module_type();
-                        //paramsPrime.children.params_fill();???
+                        var temp=gui_get_paramTab(win.module_type);
+                        rightPart.sourceComponent=temp;
 
+                        rightPart.loaded();
+
+                        //rightPart.sourceComponent.prop;
+                        //mes.text=rightPart.sourceComponent.param_name;
+                        //var temp=gui_get_paramTab(win.module_type);
+                        //mes.text=temp.param_name;
+                   //     rightPart.source="ParamsPrimesense.qml";
+                        //rightPart.setSource(primesense1);
+                        //mes.text=view.currentRow+" "+win.module_type;
                             //mes.text=view.currentRow; выводит нормально
                             //mes.text=primesense.param_name;//rightPart.sourceComponent
                         //mes.open();
@@ -289,7 +304,6 @@ Rectangle{
                     }
                }
             }
-
 
     }
     Rectangle{
@@ -325,76 +339,6 @@ Rectangle{
         width:150;
     }*/
 
-    states:[
-        State{
-            name:"State1"
-            PropertyChanges{
-                target:leftMouseArea
-                enabled:true
-            }
-            PropertyChanges{
-                target:mouseArea
-                enabled:false
-            }
-        },
-        State{
-            name:"State2"
-            PropertyChanges{
-                target:leftMouseArea
-                enabled:false
-            }
-            PropertyChanges{
-                target:mouseArea
-                enabled:true
-
-
-            }
-        }
-
-    ]
-
-
-    MouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        property bool flag:false
-        enabled:false
-
-
-        onMouseXChanged: {
-                if (mouseX>=rightPart.x-25 && mouseX<=rightPart.x+25) {
-
-                    if (rightPart.width>179 && rightPart.width<(1.0/3*win.width+10))
-                         rightPart.width=parent.width-mouseArea.mouseX;
-                    else if (rightPart.width<=179)
-                            rightPart.width=180;
-                         else rightPart.width=1.0/3*win.width+9;
-                }
-
-                if (mouseX>=centralPart.x-25 && mouseX<=centralPart.x+25) {
-
-                    if (leftPart.width>rowBut.width-1 && leftPart.width<(1.0/3*win.width-10))
-                         leftPart.width=mouseArea.mouseX;
-                    else if (leftPart.width<=rowBut.width-1)
-                            leftPart.width=rowBut.width;
-                         else leftPart.width=1.0/3*win.width-11;
-                }
-
-                mouseArea.enabled=false;
-                rightMouseArea.enabled=true;
-                leftMouseArea.enabled=true;
-                //parent.state="State1";
-
-
-        }
-        onClicked: {
-//            mouseArea.enabled=false;
-//            rightMouseArea.enabled=true;
-//            leftMouseArea.enabled=true;
-
-        }
-    }
-
     MouseArea {
         id: rightMouseArea
         property bool flag:false
@@ -404,14 +348,26 @@ Rectangle{
         height:rightPart.height;
         enabled:true
 
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        property variant previousPosition
+
+        property int minW:rowBut.width;
+        property int maxW:1.0/3*win.width-10;
+
         hoverEnabled:true
-        onEntered: {if (containsMouse) rightMouseArea.cursorShape=Qt.SizeHorCursor;
-                   else rightMouseArea.cursorShape=Qt.ArrowCursor;}
+        onEntered: rightMouseArea.cursorShape=Qt.SizeHorCursor;
+        onExited: rightMouseArea.cursorShape=Qt.ArrowCursor;
 
         onMouseXChanged: {
-            if (rightMouseArea.pressed){
-               mouseArea.enabled=true;
-               rightMouseArea.enabled=false;}
+            if (pressedButtons == Qt.LeftButton && rightPart.width>=minW && rightPart.width<=maxW) {
+                var dx = mouseX - previousPosition.x
+                if (rightPart.width-dx>=minW && rightPart.width-dx<=maxW)
+                     rightPart.width = rightPart.width - dx;
+            }
+        }
+        onPressed:{
+            if (rightPart.width>=minW && rightPart.width<=maxW)
+            previousPosition = Qt.point(mouseX, mouseY);
         }
     }
 
@@ -423,16 +379,26 @@ Rectangle{
         width:50
         height:leftPart.height;
         enabled:true
+        acceptedButtons: Qt.LeftButton | Qt.RightButton        
+        property variant previousPosition
+
+        property int minW:rowBut.width;
+        property int maxW:1.0/3*win.width-10;
+
 
         hoverEnabled:true
-        onEntered: if (containsMouse) leftMouseArea.cursorShape=Qt.SizeHorCursor;
-                   else leftMouseArea.cursorShape=Qt.ArrowCursor;
+        onEntered: leftMouseArea.cursorShape=Qt.SizeHorCursor;
+        onExited: leftMouseArea.cursorShape=Qt.ArrowCursor;
         onMouseXChanged: {
-            if (leftMouseArea.pressed){
-                //parent.state="State2";
-
-           mouseArea.enabled=true;
-           leftMouseArea.enabled=false;}
+            if (pressedButtons == Qt.LeftButton && leftPart.width>=minW && leftPart.width<=maxW) {
+                var dx = mouseX - previousPosition.x
+                if (leftPart.width+dx>=minW && leftPart.width+dx<=maxW)
+                     leftPart.width = leftPart.width + dx;
+            }
+        }
+        onPressed:{
+            if (leftPart.width>=minW && leftPart.width<=maxW)
+            previousPosition = Qt.point(mouseX, mouseY);
         }
     }
 
@@ -443,24 +409,37 @@ Rectangle{
         anchors.bottom: parent.bottom
         anchors.right: parent.right
         width: 180
+        onWidthChanged: {
 
+            win.kr=width/win.width;
+        }
 
         onLoaded: {
+            //mes.text="1111";
+            //mes.open();
+            //item.prop;
+            item.params_fill();
+
+
         }
         Component.onCompleted:{
-
-            bridge.module_select(0);
+            bridge.module_select(0);  //загрузка начального состояния
             win.module_type=bridge.get_module_type();
             rightPart.sourceComponent=gui_get_paramTab(win.module_type);
-            item.prop;
+            //item.params_fill();
         }
 
     }
 
+//    ParamsPrimesense{
+//      id:primesense1
+//      visible: false
+//    }
+
 
     Component {
         id:primesense
-        ParamsPrimesense{}
+        ParamsPrimesense{id: primesense1}
     }
     Component {
         id: preview

@@ -10,7 +10,7 @@ import QtQuick.Controls.Private 1.0
 TabView {
     style:tabStyle
     property string param_name:"ortho"
-    property var prop:params_fill()
+    //property var prop:params_fill()
 
 
     ListModel{
@@ -232,6 +232,9 @@ TabView {
         }
     }
     function params_fill(){
+        dataResol.clear();
+        dataInput.clear();
+
         tab.compFieldType="Ortho";
         tab.compFieldName="Ortho1";
         tab.compChEnabled=true;
